@@ -107,6 +107,15 @@ public class ControllerApp implements ActionListener {
 			jPrincipal.reportTableVisibility(true,reportTable);
 			break;
 
+		case C_REPORT_BY_CONNECT_PROCESS:
+			// reporte por orden en el estado en bloqueo
+			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT9);
+			reportTable.assignHeaders(this, Constants.headersR8,Constants.TOP_T_MENUITEM_REPORT9);
+			reportTable.cleanRowsTable();
+			reportTable.addElementToTable(reportByComunicateProcess());
+			jPrincipal.reportTableVisibility(true,reportTable);
+			break;
+
 		case C_REPORT_BY_EXECUTE_STATES:
 			// reporte por orden en el estado de en ejecución
 			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT10);
@@ -129,11 +138,6 @@ public class ControllerApp implements ActionListener {
 			reportTable.setVisible(false);
 			break;
 
-		case C_DELETTE_PROCESS: ///////
-			System.out.println("eliminar");
-			this.deleteProcess(Integer.valueOf(e.getActionCommand()));
-			break;
-
 		case NEW_PRIORITY:
 			jPrincipal.changeStatusJtextfieldPriority();
 			break;
@@ -152,6 +156,7 @@ public class ControllerApp implements ActionListener {
 	}
 
 
+
 	public void addProcessTable(ActionListener actionListener) {
 		jPrincipal.setInformationProcessTable(actionListener);
 	}
@@ -165,14 +170,15 @@ public class ControllerApp implements ActionListener {
 	public void executeListProcess(ArrayList<Object[]> listProcess) {
 		for (int i = 0; i < listProcess.size(); i++) {
 			Object[] vector = (Object[]) listProcess.get(i);
-			executeProcess.addProcessToQueue(new Process("" + listProcess.get(i)[0], Integer.parseInt("" + vector[1]),
-					Boolean.parseBoolean("" + vector[2]),Integer.parseInt("" + vector[3]),Boolean.parseBoolean("" + vector[4]),
-					Boolean.parseBoolean("" + vector[5]),Boolean.parseBoolean("" + vector[6]),
-					("" + vector[7])));
+			Process temp=new Process("" + vector[0], Integer.parseInt("" + vector[1]),
+			Boolean.parseBoolean("" + vector[2]),Integer.parseInt("" + vector[3]),Boolean.parseBoolean("" + vector[4]),
+			Boolean.parseBoolean("" + vector[5]),Boolean.parseBoolean("" + vector[6]),
+			("" + vector[7]));
+			executeProcess.addProcessToQueue(temp);
 		}
 		executeProcess.init();
 		executeProcess.reports();
-	//	JOptionPane.showMessageDialog(null, "Ejecucion realizada correctamente");
+		JOptionPane.showMessageDialog(null, "Ejecucion realizada correctamente");
 	}
 
 
@@ -216,6 +222,11 @@ public class ControllerApp implements ActionListener {
 	public ArrayList<Object[]> reportByExitState() {
 		return executeProcess.reportByExitState();
 	}
+
+	private ArrayList<Object[]> reportByComunicateProcess() {
+		return executeProcess.reportComunicateProcess();
+	}
+
 
 	public ArrayList<Object[]> reportForStatusChange() {
 		return executeProcess.reportForStatusChange();

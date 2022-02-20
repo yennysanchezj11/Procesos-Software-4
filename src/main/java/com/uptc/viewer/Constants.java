@@ -31,6 +31,7 @@ public class Constants {
 	public static final String [] headersEstados = {"Tiempo", "Proceso", "Prioridad"};
 	public static final String [] headersR6 = {"Tiempo Inicial","Tiempo Final", "Proceso", "Prioridad"};
 	public static final String [] headersR7 = {"Transacciones entre estados"};
+	public static final String [] headersR8 = {"Proceso","Conectado con"};
 	
 	public static final String [] PRICIPAL_HEADERS = { "Id", "Nombre del proceso", "Tiempo del proceso", "Bloqueado","Prioridad", "Ejecutar", "Destruir", "Suspender", "Conectar", "Eliminar" };
 

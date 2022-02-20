@@ -57,7 +57,9 @@ public class ExecuteProcess {
 		communicateProcess();
         while (!processes.isEmpty()) {
             Process p = processes.poll();
-            if(p.getIsExecute())attendProcessCPU(p);
+            if(p.getIsExecute()){
+            attendProcessCPU(p);
+            }
         }
     }
 
@@ -165,7 +167,11 @@ public class ExecuteProcess {
     public String[] reportHeadersTable() {
         return report.headerTable();
     }
+    
 
+    public ArrayList<Object[]> reportComunicateProcess() {
+        return report.getReportByComunicateProcess(comunicateProcess);
+    }
  
 
 

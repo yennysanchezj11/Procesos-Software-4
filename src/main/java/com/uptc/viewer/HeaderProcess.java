@@ -86,7 +86,7 @@ public class HeaderProcess extends JPanel  {
 		
 		priorityProcess = new JTextField();
 		this.changeStatusJtextfieldPriority();
-		dataProcess.add(Utilities.textField(priorityProcess, new Font("arial", Font.ITALIC, 15), "		", Color.GRAY, 150, 70));
+		dataProcess.add(Utilities.textField(priorityProcess, new Font("arial", Font.ITALIC, 15), "	5	", Color.GRAY, 150, 70));
 		
 		blockedProcess = new JCheckBox();
 		blockedProcess.setText("¿El proceso se bloqueara?");
@@ -147,7 +147,7 @@ public class HeaderProcess extends JPanel  {
     }
 
 	public String getPriorityProcess() {
-		if(priorityProcess.getText()!="   "){
+		if(priorityProcess.getText()!=""){
 			return priorityProcess.getText();
 		} else {
 			return ""+5;
@@ -168,7 +168,7 @@ public class HeaderProcess extends JPanel  {
 
 	public String getIsConnects() {
 	String connect="No";
-		if(nameProcessConection.getText()!="") {
+		if(nameProcessConection.getText()!="		") {
 			connect=nameProcessConection.getText();
 		}
 		return connect;

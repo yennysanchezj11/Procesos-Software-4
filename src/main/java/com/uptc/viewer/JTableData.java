@@ -146,14 +146,14 @@ public class JTableData extends JPanel {
 			row[5] = dtmElements.getValueAt(i, 6);
 			row[6] = dtmElements.getValueAt(i, 7);
 			row[7] = dtmElements.getValueAt(i, 8);
-			infoProcess.add(row);
+			infoProcess.add(row);	
 		}
 		return infoProcess;
 	}
 
 	public void cleanRowsTable() {
-		dtmElements.setNumRows(0);
-		dtmElements.setColumnCount(0);
+		//dtmElements.setNumRows(0);
+		this.remove(jsTable);
 	}
 
 	public JButton createButton(ActionListener actionListener,String id) {
@@ -170,8 +170,8 @@ public class JTableData extends JPanel {
 
 	public void deleteProcess(int id,ActionListener actionListener) {
 		listProcess= new ArrayList<>();
-		int rowInitial=dtmElements.getRowCount();
-		for (int i = 0; i <= rowInitial; i++) {
+		int rowInitial=dtmElements.getRowCount()+1;
+		for (int i = 0; i < rowInitial; i++) {
 			int idProcess=Integer.parseInt(""+dtmElements.getValueAt(i, 0));
 			if(idProcess==id){
 				dtmElements.removeRow(i);
@@ -187,16 +187,16 @@ public class JTableData extends JPanel {
 				row[6] = dtmElements.getValueAt(i, 6);
 				row[7] = dtmElements.getValueAt(i, 7);
 				row[8] = dtmElements.getValueAt(i, 8);
-
-			
 				listProcess.add(row);
 			  }  
 	        }
 		cleanRowsTable();
-		loadProcess(actionListener);
+		
+		//loadProcess(actionListener);
 	}
 
 	private void loadProcess(ActionListener actionListener) {
+		initComponents();
 		defaulModel();
 		for (int i = 0; i < listProcess.size(); i++) {
 			addElementUniqueToTable(listProcess.get(i), actionListener);

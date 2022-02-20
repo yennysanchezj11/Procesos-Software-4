@@ -190,6 +190,14 @@ public class Report {
         return aux;
     }
 
-
+    public ArrayList<Object[]> getReportByComunicateProcess(List<Process> comunicateProcess) {
+            ArrayList<Object[]> aux= new ArrayList<>();
+            processes.stream()
+            .sorted(Comparator.comparing(Process::getName))
+            .filter(x->x.getConnectProcess()!="")
+            .map(x -> (aux.add(new String[]{ ""+x.getName(),""+x.getConnectProcess()})))
+            .forEach(System.out::print);
+            return aux;
+    }
 
 }
