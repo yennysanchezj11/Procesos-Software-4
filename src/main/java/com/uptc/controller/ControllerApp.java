@@ -32,9 +32,15 @@ public class ControllerApp implements ActionListener {
 			// agregar proceso a la tabla de procesos
 			addProcessTable(this);
 			break;
+		case C_ADD_PARTITION:
+			// agregar proceso a la tabla de procesos
+			addPartitionTable(this);
+			break;
+
 		case C_EXECUTE_PROCESS:
 			// Ejecutar lista de procesos
 			System.out.println("ENTRO A EJECUTAR");
+			addPartitionList(jPrincipal.getPartitionInformation());
 			executeProcess();
 			break;
 
@@ -79,42 +85,6 @@ public class ControllerApp implements ActionListener {
 			reportTable.addElementToTable(reportByLockedStates());
 			jPrincipal.reportTableVisibility(true,reportTable);
 			break;
-		
-			case C_REPORT_BY_DESTROY_PROCESS:
-			// reporte por orden en el estado en bloqueo
-			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT6);
-			reportTable.assignHeaders(this, Constants.headersEstados,Constants.TOP_T_MENUITEM_REPORT6);
-			reportTable.cleanRowsTable();
-			reportTable.addElementToTable(reportByDestroyProcess());
-			jPrincipal.reportTableVisibility(true,reportTable);
-			break;
-
-			case C_REPORT_BY_LAYOFF_PROCESS:
-			// reporte por orden en el estado en bloqueo
-			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT7);
-			reportTable.assignHeaders(this, Constants.headersEstados,Constants.TOP_T_MENUITEM_REPORT7);
-			reportTable.cleanRowsTable();
-			reportTable.addElementToTable(reportByLayOffProcess());
-			jPrincipal.reportTableVisibility(true,reportTable);
-			break;
-		
-			case C_REPORT_BY_RESUME_PROCESS:
-			// reporte por orden en el estado en bloqueo
-			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT8);
-			reportTable.assignHeaders(this, Constants.headersEstados,Constants.TOP_T_MENUITEM_REPORT8);
-			reportTable.cleanRowsTable();
-			reportTable.addElementToTable(reportByResumeProcess());
-			jPrincipal.reportTableVisibility(true,reportTable);
-			break;
-
-		case C_REPORT_BY_CONNECT_PROCESS:
-			// reporte por orden en el estado en bloqueo
-			reportTable= new ReportDialog(jPrincipal,Constants.TOP_T_MENUITEM_REPORT9);
-			reportTable.assignHeaders(this, Constants.headersR8,Constants.TOP_T_MENUITEM_REPORT9);
-			reportTable.cleanRowsTable();
-			reportTable.addElementToTable(reportByComunicateProcess());
-			jPrincipal.reportTableVisibility(true,reportTable);
-			break;
 
 		case C_REPORT_BY_EXECUTE_STATES:
 			// reporte por orden en el estado de en ejecución
@@ -138,14 +108,6 @@ public class ControllerApp implements ActionListener {
 			reportTable.setVisible(false);
 			break;
 
-		case NEW_PRIORITY:
-			jPrincipal.changeStatusJtextfieldPriority();
-			break;
-
-		case CONNECT_PROCESS:
-			jPrincipal.changeStatusJtextfieldConnect();
-			break;
-
 		default:
 
 			break;
@@ -157,22 +119,32 @@ public class ControllerApp implements ActionListener {
 
 
 
+	private void addPartitionTable(ControllerApp controllerApp) {
+		//jPrincipal.setInformationPartitionTable(actionListener);
+	}
+
+	private void addPartitionList(ArrayList<Object[]> listPartition) {
+		/*for (int i = 0; i < listPartition.size(); i++) {
+			Object[] vector = (Object[]) listPartition.get(i);
+			Process temp=new Process("" + vector[0], Integer.parseInt("" + vector[1]));
+			executeProcess.addPartitionToList(temp);
+		}*/
+	}
+
 	public void addProcessTable(ActionListener actionListener) {
 		jPrincipal.setInformationProcessTable(actionListener);
 	}
 
 	public void executeProcess() {
 		// set lista de procesos
-		executeListProcess(jPrincipal.getInformation());
+		executeListProcess(jPrincipal.getProcessInformation());
 
 	}
 
 	public void executeListProcess(ArrayList<Object[]> listProcess) {
 		for (int i = 0; i < listProcess.size(); i++) {
 			Object[] vector = (Object[]) listProcess.get(i);
-			Process temp=new Process("" + vector[0], Integer.parseInt("" + vector[1]),
-			Boolean.parseBoolean("" + vector[2]),Integer.parseInt("" + vector[3]),Boolean.parseBoolean("" + vector[4]),
-			Boolean.parseBoolean("" + vector[5]),Boolean.parseBoolean("" + vector[6]),
+			Process temp=new Process("" + vector[0], Integer.parseInt("" + vector[1]),Integer.parseInt("" + vector[1]),
 			("" + vector[7]));
 			executeProcess.addProcessToQueue(temp);
 		}
@@ -194,19 +166,6 @@ public class ControllerApp implements ActionListener {
 		return executeProcess.reportStatusChangeProcess();
 	}
 
-	private ArrayList<Object[]> reportByDestroyProcess() {
-		return executeProcess.reportDestroyProcess();
-	}
-
-
-	private ArrayList<Object[]> reportByLayOffProcess() {
-		return executeProcess.reportLayOffProcess();
-	}
-
-	private ArrayList<Object[]> reportByResumeProcess() {
-		return executeProcess.reportResumeProcess();
-	}
-
 	public ArrayList<Object[]> reportByCpuExecuteOrder() {
 		return executeProcess.reportByCpuExecuteOrder();
 	}
@@ -222,11 +181,6 @@ public class ControllerApp implements ActionListener {
 	public ArrayList<Object[]> reportByExitState() {
 		return executeProcess.reportByExitState();
 	}
-
-	private ArrayList<Object[]> reportByComunicateProcess() {
-		return executeProcess.reportComunicateProcess();
-	}
-
 
 	public ArrayList<Object[]> reportForStatusChange() {
 		return executeProcess.reportForStatusChange();

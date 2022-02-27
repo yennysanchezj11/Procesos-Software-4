@@ -49,7 +49,7 @@ public class Report {
         ArrayList<Object[]> aux= new ArrayList<>();
             registers.get(READY).stream()
                     .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                    .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
+                    .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName()})))
                     .forEach(System.out::print);
     return aux;
     }
@@ -58,35 +58,8 @@ public class Report {
         ArrayList<Object[]> aux= new ArrayList<>();
         registers.get(LOCKED).stream()
                 .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
+                .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName()})))
                 .forEach(System.out::print);
-    return aux;
-    }
-
-    public ArrayList<Object[]> getReportByDestroyProcess() {
-        ArrayList<Object[]> aux= new ArrayList<>();
-            registers.get(DESTROY).stream()
-                    .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                    .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
-                    .forEach(System.out::print);
-    return aux;
-    }
-
-    public ArrayList<Object[]> getReportByLayOffProcess() {
-        ArrayList<Object[]> aux= new ArrayList<>();
-            registers.get(LAYOFF).stream()
-                    .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                    .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
-                    .forEach(System.out::print);
-    return aux;
-    }
-
-    public ArrayList<Object[]> getReportByResumeProcess() {
-        ArrayList<Object[]> aux= new ArrayList<>();
-            registers.get(RESUME).stream()
-                    .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                    .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
-                    .forEach(System.out::print);
     return aux;
     }
     
@@ -94,7 +67,7 @@ public class Report {
         ArrayList<Object[]> aux= new ArrayList<>();
         registers.get(EXIT).stream()
                 .sorted(Comparator.comparingInt(Register::getTimeEnd))
-                .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
+                .map(x -> (aux.add(new String[]{ ""+x.getTimeEnd(),x.getProcess().getName()})))
                 .forEach(System.out::print);
     return aux;
     }
@@ -104,7 +77,7 @@ public class Report {
         registers.get(EXECUTE).stream()
                 .distinct()
                 .sorted(Comparator.comparingInt(Register::getTimeInit))
-                .map(x -> (aux.add(new String[]{ ""+x.getTimeInit(),""+x.getTimeEnd(),x.getProcess().getName(),""+x.getProcess().getNewPriority()})))
+                .map(x -> (aux.add(new String[]{ ""+x.getTimeInit(),""+x.getTimeEnd(),x.getProcess().getName()})))
                 .forEach(System.out::print);
         return aux;
     }
@@ -189,15 +162,4 @@ public class Report {
         while (aux % timeCPU != 0) aux++;
         return aux;
     }
-
-    public ArrayList<Object[]> getReportByComunicateProcess(List<Process> comunicateProcess) {
-            ArrayList<Object[]> aux= new ArrayList<>();
-            processes.stream()
-            .sorted(Comparator.comparing(Process::getName))
-            .filter(x->x.getConnectProcess()!="")
-            .map(x -> (aux.add(new String[]{ ""+x.getName(),""+x.getConnectProcess()})))
-            .forEach(System.out::print);
-            return aux;
-    }
-
 }

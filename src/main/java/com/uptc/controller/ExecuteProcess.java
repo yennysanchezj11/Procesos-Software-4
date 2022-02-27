@@ -16,6 +16,8 @@ public class ExecuteProcess {
     private final Queue<Process> processes;
     private final List<Process> allProcess;
     private final List<Partition> allPartition;
+    private final Queue<Partition> partitions;
+    private final List<Process> noExecuteProcess;
 
 
     private int timeProcess;   // cambia --
@@ -27,6 +29,8 @@ public class ExecuteProcess {
         this.processes = new LinkedList<>();
         this.allProcess = new LinkedList<>();
         this.allPartition = new LinkedList<>();
+        this.partitions = new LinkedList<>();
+        this.noExecuteProcess=new LinkedList<>();
         timeProcess = 0;
         totalTime = 0;
     }
@@ -39,6 +43,7 @@ public class ExecuteProcess {
     public void addProcessToQueue(Process p) {
         this.processes.add(p);
         this.allProcess.add(p);
+        addProcessPartition(p);
         totalTime += p.getTime();
         p.states(0, 0, READY, INIT);
     }
@@ -46,45 +51,52 @@ public class ExecuteProcess {
     	
     public void init() {
         this.timeCPU = 5;
-        while (!processes.isEmpty()) {
-            Process p = processes.poll();
-            Partition pAux=getPartition(p.getAsingPartition());
-            if(pAux.getListProcess().size()==0){
-                pAux.addProcesses(p);
-                    if(pAux.getSize()>= p.getsize()){
-                    attendProcessCPU(pAux);
-                    }
-            } else {
-            attendProcessCPU(pAux);
-            }  
+        cloneListPartition();
+        while (!partitions.isEmpty()){
+        Partition pAux=partitions.poll();
+            while(!pAux.getListProcess().isEmpty()){
+                    attendCPU(pAux); 
+                }
         }
     }
 
-    private Partition getPartition(String asingPartition) {
+    private void cloneListPartition() {
         for (Partition partitionIter : allPartition) {
-            if(partitionIter.getName()==asingPartition){
-                return partitionIter;
+              partitions.add(partitionIter);
+        }
+    }
+
+
+    private void addProcessPartition(Process process) {
+        String partitionName=process.getAsingPartition();
+        for (Partition partitionIter : allPartition) {
+            if(partitionIter.getName()==partitionName){
+                partitionIter.addProcesses(process);
             }
         }
-        return null;
     }
 
 
-    private void attendProcessCPU(Partition pAux) {
-        Process p=pAux.getListProcess().peek();
+    private void attendCPU(Partition pAux) {
+        Process p=pAux.getListProcess().poll();
         System.out.println("ATENDIENDO PROCESO" + p.getName());
         System.out.println(p.getName()+"tiempo"+p.getTime());
-        if (p.getTime() > timeCPU) { // 500 - 100
-            p.setTime(timeCPU);
-            p.states(timeProcess, timeProcess += timeCPU, EXECUTE, READY);
-            p.states(timeProcess, timeProcess += timeCPU, READY, EXECUTE);
-        } else { // 50 100
-            int timePi = p.getTime();
-            p.setTime(timePi);
-            p.states(timeProcess, timeProcess += timePi, EXECUTE, READY);
-            p.states(timeProcess, timeProcess, EXIT, EXECUTE);
-            pAux.getListProcess().poll();
+        if(pAux.getSize()<=p.getsize()){
+            if (p.getTime() > timeCPU) { // 500 - 100
+                p.setTime(timeCPU);
+                p.states(timeProcess, timeProcess += timeCPU, EXECUTE, READY);
+                p.states(timeProcess, timeProcess += timeCPU, READY, EXECUTE);
+                pAux.getListProcess().add(p);
+            } else { // 50 100
+                int timePi = p.getTime();
+                p.setTime(timePi);
+                p.states(timeProcess, timeProcess += timePi, EXECUTE, READY);
+                p.states(timeProcess, timeProcess, EXIT, EXECUTE);
+            }
+        } else {
+            noExecuteProcess.add(p);
         }
+
     }
 
 
@@ -118,18 +130,6 @@ public class ExecuteProcess {
 
     public ArrayList<Object[]> reportByCpuExecuteOrder() {
         return report.reportByCpuExecuteOrder();
-    }
-
-    public ArrayList<Object[]> reportDestroyProcess() {
-        return report.getReportByDestroyProcess();
-    }
-
-    public ArrayList<Object[]> reportLayOffProcess() {
-        return report.getReportByLayOffProcess();
-    }
-
-    public ArrayList<Object[]> reportResumeProcess() {
-        return report.getReportByResumeProcess();
     }
 
     public String[] reportHeadersTable() {

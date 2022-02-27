@@ -74,16 +74,16 @@ public class JFramePrincipal extends JFrame {
 			System.exit(0);
 	}
 
-	public ArrayList<Object[]> getInformation() {
+	public ArrayList<Object[]> getProcessInformation() {
 		return centerTable.getProcessInformation( );
 	}
 
 	public void addElementToTablePrincipalTable(ActionListener actionListener ) {
-		centerTable.addElementToTable(getInformation());
+		centerTable.addElementToTable(getProcessInformation());
 	}
 
 	public void setInformationProcessTable(ActionListener actionListener) {
-		if(checkName(getInformation())){
+		if(checkName(getProcessInformation())){
 		headerProcess.incrementId();
 		System.out.println(headerProcess.getPriorityProcess()+"campo prioridad");
 		Object[] data ={headerProcess.getId(),headerProcess.getNameProcess(), headerProcess.getProcessTime(),
@@ -120,5 +120,9 @@ public class JFramePrincipal extends JFrame {
 	public void changeStatusJtextfieldConnect(){
 		headerProcess.changeStatusJtextfieldConnect();
 	}
+
+    public ArrayList<Object[]> getPartitionInformation() {
+        return null;
+    }
 
 }

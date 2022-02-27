@@ -16,7 +16,7 @@ public class MenuBarReports extends JMenuBar {
 	private static final long serialVersionUID = 1L;
 
 	private JMenu report;
-	private JMenuItem report2, report3, report4, report5, report6, report7,report8, report9, report10, report11;
+	private JMenuItem report2, report3, report4, report5, report10, report11;
 	private JButton executeButton, closeApppButton;
 
 	public MenuBarReports(ActionListener actionListener) {
@@ -64,34 +64,6 @@ public class MenuBarReports extends JMenuBar {
 		report5.addActionListener(actionListener);
 		report5.setActionCommand(Commands.C_REPORT_BY_LOCKED_STATES.toString());
 		report.add(report5);
-		report.addSeparator();
-
-		report6 = new JMenuItem(Constants.TOP_T_MENUITEM_REPORT6);
-		report6.setFont(Constants.FONT_MENUBAR);
-		report6.addActionListener(actionListener);
-		report6.setActionCommand(Commands.C_REPORT_BY_DESTROY_PROCESS.toString());
-		report.add(report6);
-		report.addSeparator();
-
-		report7 = new JMenuItem(Constants.TOP_T_MENUITEM_REPORT7);
-		report7.setFont(Constants.FONT_MENUBAR);
-		report7.addActionListener(actionListener);
-		report7.setActionCommand(Commands.C_REPORT_BY_LAYOFF_PROCESS.toString());
-		report.add(report7);
-		report.addSeparator();
-
-		report8 = new JMenuItem(Constants.TOP_T_MENUITEM_REPORT8);
-		report8.setFont(Constants.FONT_MENUBAR);
-		report8.addActionListener(actionListener);
-		report8.setActionCommand(Commands.C_REPORT_BY_RESUME_PROCESS.toString());
-		report.add(report8);
-		report.addSeparator();
-
-		report9 = new JMenuItem(Constants.TOP_T_MENUITEM_REPORT9);
-		report9.setFont(Constants.FONT_MENUBAR);
-		report9.addActionListener(actionListener);
-		report9.setActionCommand(Commands.C_REPORT_BY_CONNECT_PROCESS.toString());
-		report.add(report9);
 		report.addSeparator();
 
 
